@@ -1,91 +1,10 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-This is the main file for running a simulation of a game
-@author: Paul Capriolo
-"""
-
-from random import shuffle, choice
-from math import floor, ceil
-import Player.py
-
-class Hand(object):
-
-    def __init__(self):
-        self.cards = []
-
-class Tree(object):
-
-    def __init__(self,deck,num_players):
-        print ("Initializing Tree")
-        self.leaves = []
-        hand_size = 5
-        ctr = 0
-        
-        for x in range(0,len(deck.CARD_DATA)):
-            hand = []
-            hand.append(deck.CARD_DATA[x][0])
-            self.leaves.append(hand)
-        
-        print (self.leaves)
-        
-        hand = self.leaves.pop(0)
-
-        while (len(hand) < hand_size):
-            for y in range(0,len(deck.CARD_DATA)):
-                
-                '''
-                This checks if this type of card is allowed to be added
-                to the hand based on the number of each card in the deck
-                '''
-                
-                if hand.count(deck.CARD_DATA[y][0]) < deck.CARD_DATA[y][1]: 
-                    temp_hand = hand.copy()
-                    temp_hand.append(deck.CARD_DATA[y][0])
-                    self.leaves.append(temp_hand)
-                
-                    ctr = ctr + 1
-                    if(ctr % 100000 == 0):
-                        print ('Hands Created: ' + str(ctr) + ' curr len = ' + str(len(temp_hand)))
-            
-            hand = self.leaves.pop(0)
-        
-        self.leaves.append(hand)
-        print (len(self.leaves))
-
-class Deck(object):
- 
-    CARD_DATA = (('Tempura',14),
-                 ('Sashimi',14),
-                 ('Dumpling',14),
-                 ('Maki 1', 6),
-                 ('Maki 2', 12),
-                 ('Maki 3', 8),
-                 ('Salmon Nigiri',10),
-                 ('Squid Nigiri',5),
-                 ('Egg Nigiri',5),
-                 ('Pudding',10),
-                 ('Wasabi',6),
-                 ('Chopsticks',4))
-    
-    def __init__(self):
-        print ("Initializing Deck")
-        self.cards = []
-        for x in range(0,len(self.CARD_DATA)):
-            self.card_type = self.CARD_DATA[x]
-            print (self.card_type)
-            
-            for y in range(0,self.card_type[1]):
-                self.cards.append(self.card_type[0])
-
-        print ("Total cards = "+ str(len(self.cards)))
-        shuffle(self.cards)
-        print (self.cards)
-        print ('\r\n\r\n')
-
 '''
 This is the main class that manages the game
 '''
+from math import floor, ceil
+from Deck import Deck
+from Player import Player
+
 class Game(object):
     
     '''Create Deck & Players'''
@@ -270,28 +189,3 @@ class Game(object):
         
         '''TODO:  print deck and players as individual function calls'''
         return game_str
-
-def main():
-
-    num_players = 2    
-    game = Game(num_players)
-    
-    while (game.round < 3):
-        game.round += 1
-        game.deal_cards()
-        
-        for x in range(0,game.starting_hand_size):
-            game.pick()
-
-        print("Calulating Round "+str(game.round)+" Results")        
-        game.score_round()
-        print(game)
-        game.end_round()
-
-    ''' 
-    Generate all possible hands and score them.
-    '''
-    '''tree = Tree(game.deck,num_players)'''
-
-if __name__ == '__main__':
-    main()
