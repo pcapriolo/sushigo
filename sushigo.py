@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 25 10:08:04 2017
-
+This is the main file for running a simulation of a game
 @author: Paul Capriolo
 """
 
