@@ -1,2 +1,2 @@
 # sushigo
-Sushi Go Agent
+Learning RL by building a Sushi Go Agent
